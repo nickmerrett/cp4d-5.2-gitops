@@ -54,13 +54,11 @@ while IFS='=' read -r k v; do
   kvs+=("$k=$v")
 done < "$TMP_KV"
 
-find "$PROJECT_ROOT" \( -name "*.yaml" -o -name "*.yml" \) | while read -r file; do
-  [[ "$file" == "$VALUES_FILE" || "$file" == "$0" ]] && continue
-  for kv in "${kvs[@]}"; do
-    k="${kv%%=*}"
-    v="${kv#*=}"
-    perl -pi -e "s|\\\${$k}|$v|g" "$file"
-  done
+for kv in "${kvs[@]}"; do
+k="${kv%%=*}"
+v="${kv#*=}"
+perl -pi -e "s|\\\${$k}|$v|g" *.yaml 
+perl -pi -e "s|\\\${$k}|$v|g" *.yml 
 done
 
 rm -f "$TMP_KV"

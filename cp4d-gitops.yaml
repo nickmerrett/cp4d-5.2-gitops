@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: <repoURL>
+    repoURL: https://github.com/nickmerrett/cp4d-5.2-gitops.git
     targetRevision: main
     path: .
     kustomize: {}
