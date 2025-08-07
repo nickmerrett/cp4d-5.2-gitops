@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -x pipefail
 
 LOG_TAG_WIDTH=9
 print_log() {
@@ -54,11 +54,35 @@ while IFS='=' read -r k v; do
   kvs+=("$k=$v")
 done < "$TMP_KV"
 
+print_log INFO "Updating Cluster Scope"
 for kv in "${kvs[@]}"; do
 k="${kv%%=*}"
 v="${kv#*=}"
-perl -pi -e "s|\\\${$k}|$v|g" *.yaml 
-perl -pi -e "s|\\\${$k}|$v|g" *.yml 
+find $PROJECT_ROOT/1-cluster-scope -type f -name "*.yaml" -exec perl -pi -e "s#\\\${$k}#$v#g;" {} +
+done
+
+declare -a kvs
+while IFS='=' read -r k v; do
+  [ -z "$k" ] && continue
+  kvs+=("$k=$v")
+done < "$TMP_KV"
+print_log INFO "Updating Namespace Scope"
+for kv in "${kvs[@]}"; do
+k="${kv%%=*}"
+v="${kv#*=}"
+find $PROJECT_ROOT/2-namespace-scope -type f -name "*.yaml" -exec perl -pi -e "s#\\\${$k}#$v#g;" {} +
+done
+
+declare -a kvs
+while IFS='=' read -r k v; do
+  [ -z "$k" ] && continue
+  kvs+=("$k=$v")
+done < "$TMP_KV"
+print_log INFO "Updating Cartridges"
+for kv in "${kvs[@]}"; do
+k="${kv%%=*}"
+v="${kv#*=}"
+find $PROJECT_ROOT/3-cartridge -type f -name "*.yaml" -exec perl -pi -e "s#\\\${$k}#$v#g;" {} +
 done
 
 rm -f "$TMP_KV"

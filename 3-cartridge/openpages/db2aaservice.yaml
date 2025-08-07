@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: db2aaservice-${appSuffix}
-  namespace: ${argocdNS}
+  name: db2aaservice-gitops
+  namespace: openshift-gitops
 spec:
   destination:
     name: ''
     namespace: default
     server: https://kubernetes.default.svc
   source:
-    repoURL: ${helmRepoURLdev}
+    repoURL: https://github.com/gitops-cp4d/non-olm-cp4d-gitops.git
     targetRevision: main
     path: repos
     chart: db2aaservice
