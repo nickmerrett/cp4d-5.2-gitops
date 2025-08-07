@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x pipefail
+set -euo pipefail
 
 LOG_TAG_WIDTH=9
 print_log() {
