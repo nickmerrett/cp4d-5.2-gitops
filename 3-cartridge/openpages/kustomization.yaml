@@ -1,0 +1,9 @@
+resources:
+  - db2aaservice.yaml
+  - db2u.yaml
+  - rabbitmq.yaml
+  - openpages.yaml
+  - db2aaservice-cluster.yaml
+  - db2u-cluster.yaml
+  - rabbitmq-cluster.yaml
+  - openpages-cluster.yaml
