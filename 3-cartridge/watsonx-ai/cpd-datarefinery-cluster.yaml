@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cpd-datarefinery-cluster-${appSuffix}
-  namespace: ${argocdNS}
+  name: cpd-datarefinery-cluster-gitops
+  namespace: openshift-gitops
 spec:
   destination:
     name: ''
     namespace: default
     server: https://kubernetes.default.svc
   source:
-    repoURL: ${argoSourceRepoURL}
+    repoURL: https://github.com/nickmerrett/cp4d-5.2-gitops.git
     targetRevision: main
     path: repos/cpd-datarefinery/cluster-scope
   project: default

@@ -2,11 +2,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argocd-application-controller-admin
-  namespace: ${operatorNS}
+  namespace: gitops-operator
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-argocd-application-controller
-    namespace: ${argocdNS}
+    namespace: openshift-gitops
 roleRef:
   kind: Role
   name: admin
@@ -16,11 +16,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argocd-application-controller-admin
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-argocd-application-controller
-    namespace: ${argocdNS}
+    namespace: openshift-gitops
 roleRef:
   kind: Role
   name: admin
@@ -30,11 +30,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argocd-application-controller-admin
-  namespace: ${licensingNS}
+  namespace: gitops-licensing
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-argocd-application-controller
-    namespace: ${argocdNS}
+    namespace: openshift-gitops
 roleRef:
   kind: Role
   name: admin
@@ -48,7 +48,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-argocd-application-controller
-    namespace: ${argocdNS}
+    namespace: openshift-gitops
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
