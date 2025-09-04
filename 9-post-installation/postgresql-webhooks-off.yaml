@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: webhooks-patcher
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: patch-argo-app
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
 rules:
 - apiGroups: ["argoproj.io"]
   resources: ["applications"]
@@ -18,7 +18,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: patch-argo-app-binding
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -26,13 +26,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: webhooks-patcher
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: patch-pg-webhooks-off
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
@@ -50,6 +50,6 @@ spec:
             set -euo pipefail
             echo "sleeping 180s..."
             sleep 180
-            kubectl -n ${argocdNS} patch application postgresql-cluster-gitops \
+            kubectl -n openshift-gitops patch application postgresql-cluster-gitops \
               --type merge \
               -p '{"spec":{"source":{"helm":{"valuesObject":{"webhook":{"mutating":{"create":false},"validating":{"create":false}}}}}}}'

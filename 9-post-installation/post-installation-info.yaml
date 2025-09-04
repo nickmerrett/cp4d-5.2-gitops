@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: read-creds-sa
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: read-creds-role
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 rules:
   - apiGroups: ["cpd.ibm.com"]
     resources: ["ibmcpds"]
@@ -26,11 +26,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: read-creds-rb
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 subjects:
   - kind: ServiceAccount
     name: read-creds-sa
-    namespace: ${instanceNS}
+    namespace: gitops-instance
 roleRef:
   kind: Role
   name: read-creds-role
@@ -40,7 +40,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: post-installation-info
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 spec:
   replicas: 1
   selector:
@@ -62,7 +62,7 @@ spec:
             - |
               set -eu
 
-              NS='${instanceNS}'
+              NS='gitops-instance'
               CR='ibmcpd-cr'
               SECRET='platform-auth-idp-credentials'
               ROUTE='cpd'

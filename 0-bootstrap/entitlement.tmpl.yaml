@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ibm-entitlement-key
-  namespace: ${operatorNS}
+  namespace: gitops-operator
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: ${dockerconfigjson_b64}
@@ -12,7 +12,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ibm-entitlement-key
-  namespace: ${instanceNS}
+  namespace: gitops-instance
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: ${dockerconfigjson_b64}
@@ -21,7 +21,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ibm-entitlement-key
-  namespace: ${licensingNS}
+  namespace: gitops-licensing
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: ${dockerconfigjson_b64}

@@ -12,5 +12,5 @@ patches:
       group: argoproj.io
       version: v1alpha1
       kind: Application
-      name: postgresql-cluster-${appSuffix}
-      namespace: ${argocdNS}
+      name: postgresql-cluster-gitops
+      namespace: openshift-gitops

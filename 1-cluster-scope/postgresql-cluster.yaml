@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql-cluster-${appSuffix}
-  namespace: ${argocdNS}
+  name: postgresql-cluster-gitops
+  namespace: openshift-gitops
   labels:
     scope: cluster
     product: software-hub
@@ -20,13 +20,13 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: ${helmRepoURL}
-    targetRevision: ${postgresql-cluster-version}
-    chart: ${postgresql-cluster-chart}
+    repoURL: https://gitops-cp4d.github.io/non-olm-cp4d-gitops/repos
+    targetRevision: 5.17.0+20250618.084143.22
+    chart: postgresql-cluster-scoped
     helm:
       valuesObject:
         global:
-          operatorNamespace: ${operatorNS}
+          operatorNamespace: gitops-operator
         ## patching when ccs is enabled
         # webhook:
         #   mutating:

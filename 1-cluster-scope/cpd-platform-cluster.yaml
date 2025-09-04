@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cpd-platform-cluster-${appSuffix}
-  namespace: ${argocdNS}
+  name: cpd-platform-cluster-gitops
+  namespace: openshift-gitops
   labels:
     scope: cluster
     product: software-hub
@@ -13,13 +13,13 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: ${helmRepoURL}
-    targetRevision: ${cpd-platform-cluster-version}
-    chart: ${cpd-platform-cluster-chart}
+    repoURL: https://gitops-cp4d.github.io/non-olm-cp4d-gitops/repos
+    targetRevision: 5.2.0+20250516.013559.108
+    chart: cpd-platform-cluster-scoped
     helm:
       valuesObject:
         global:
-          operatorNamespace: ${operatorNS}
+          operatorNamespace: gitops-operator
   project: default
   syncPolicy:
     automated:

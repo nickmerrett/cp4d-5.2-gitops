@@ -2,17 +2,17 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: non-olm-cp4d
-  namespace: ${argocdNS}
+  namespace: openshift-gitops
 spec:
   project: default
   source:
-    repoURL: ${argoSourceRepoURL}
+    repoURL: https://github.com/nickmerrett/cp4d-5.2-gitops.git
     targetRevision: main
     path: .
     kustomize: {}
   destination:
     server: https://kubernetes.default.svc
-    namespace: ${argocdNS}
+    namespace: openshift-gitops
   syncPolicy:
     automated:
       prune: true 

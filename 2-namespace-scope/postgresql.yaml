@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql-${appSuffix}
-  namespace: ${argocdNS}
+  name: postgresql-gitops
+  namespace: openshift-gitops
   labels:
     scope: namespace
     product: software-hub
@@ -13,20 +13,20 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: ${helmRepoURL}
-    targetRevision: ${postgresql-version}
-    chart: ${postgresql-chart}
+    repoURL: https://gitops-cp4d.github.io/non-olm-cp4d-gitops/repos
+    targetRevision: 5.17.0+20250618.084143.22
+    chart: postgresql
     helm:
       valuesObject:
         global:
           licenseAccept: true
-          operatorNamespace: ${operatorNS}
-          instanceNamespace: ${instanceNS}
-          blockStorageClass: ${blockStorageClass}
-          fileStorageClass: ${fileStorageClass}
-          imagePullPrefix: ${imagePullPrefix}
-          imagePullSecret: ${imagePullSecret}
-          installConfigImageDigest: ${installConfigImageDigest}
+          operatorNamespace: gitops-operator
+          instanceNamespace: gitops-instance
+          blockStorageClass: ocs-external-storagecluster-ceph-rbd
+          fileStorageClass: ocs-external-storagecluster-cephfs
+          imagePullPrefix: icr.io
+          imagePullSecret: ibm-entitlement-key
+          installConfigImageDigest: sha256:f97f1b364a27acfe08b1c80d9ce91c25f07e6005a7ba821abf164c8e38925a04
           installConfigImageName: cpopen/cpd/olm-utils-v3
         postgresql:
           entitledImagePullPrefix: cp.icr.io

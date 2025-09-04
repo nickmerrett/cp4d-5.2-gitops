@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-config-${appSuffix}
-  namespace: ${argocdNS}
+  name: platform-config-gitops
+  namespace: openshift-gitops
   labels:
     scope: namespace
     product: software-hub
@@ -13,19 +13,19 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: ${helmRepoURL}
-    targetRevision: ${platform-config-version}
-    chart: ${platform-config-chart}
+    repoURL: https://gitops-cp4d.github.io/non-olm-cp4d-gitops/repos
+    targetRevision: 5.2.0+20250402.154803.5
+    chart: platform-config
     helm:
       valuesObject:
         global:
           licenseAccept: true
           releaseVersion: 5.2.0
-          operatorNamespace: ${operatorNS}
-          instanceNamespace: ${instanceNS}
-          imagePullPrefix: ${imagePullPrefix}
-          imagePullSecret: ${imagePullSecret}
-          installConfigImageDigest: ${installConfigImageDigest}
+          operatorNamespace: gitops-operator
+          instanceNamespace: gitops-instance
+          imagePullPrefix: icr.io
+          imagePullSecret: ibm-entitlement-key
+          installConfigImageDigest: sha256:f97f1b364a27acfe08b1c80d9ce91c25f07e6005a7ba821abf164c8e38925a04
           installConfigImageName: cpopen/cpd/olm-utils-v3
           components:
             - planning_analytics

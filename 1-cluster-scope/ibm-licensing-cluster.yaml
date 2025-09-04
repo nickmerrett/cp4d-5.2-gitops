@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ibm-licensing-cluster-${appSuffix}
-  namespace: ${argocdNS}
+  name: ibm-licensing-cluster-gitops
+  namespace: openshift-gitops
   labels:
     scope: cluster
     product: software-hub
@@ -13,18 +13,18 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: ${helmRepoURL}
-    targetRevision: ${ibm-licensing-cluster-version}
-    chart: ${ibm-licensing-cluster-chart}
+    repoURL: https://gitops-cp4d.github.io/non-olm-cp4d-gitops/repos
+    targetRevision: 4.2.16+20250604.153216.0
+    chart: ibm-licensing-cluster-scoped
     helm:
       valuesObject:
         global:
           licenseAccept: true
-          imagePullPrefix: ${imagePullPrefix}
-          imagePullSecret: ${imagePullSecret}
+          imagePullPrefix: icr.io
+          imagePullSecret: ibm-entitlement-key
         ibmLicensing:
-          namespace: ${licensingNS}
-          watchNamespace: ${licensingNS},${operatorNS},${instanceNS}
+          namespace: gitops-licensing
+          watchNamespace: gitops-licensing,gitops-operator,gitops-instance
   project: default
   syncPolicy:
     automated:

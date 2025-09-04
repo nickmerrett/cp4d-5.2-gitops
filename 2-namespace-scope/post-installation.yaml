@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: post-installation-${appSuffix}
-  namespace: ${argocdNS}
+  name: post-installation-gitops
+  namespace: openshift-gitops
   labels:
     scope: namespace
     product: software-hub
 spec:
   destination:
-    namespace: ${instanceNS}
+    namespace: gitops-instance
     server: https://kubernetes.default.svc
   source:
-    repoURL: ${argoSourceRepoURL}
+    repoURL: https://github.com/nickmerrett/cp4d-5.2-gitops.git
     targetRevision: main
     path: 9-post-installation
     kustomize: {}

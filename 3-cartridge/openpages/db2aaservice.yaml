@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: db2aaservice-${appSuffix}
-  namespace: ${argocdNS}
+  name: db2aaservice-gitops
+  namespace: openshift-gitops
   labels:
     scope: namespace
     product: openpages
@@ -12,7 +12,7 @@ spec:
     namespace: default
     server: https://kubernetes.default.svc
   source:
-    repoURL: ${argoSourceRepoURL}
+    repoURL: https://github.com/nickmerrett/cp4d-5.2-gitops.git
     targetRevision: main
     path: repos/db2aaservice
     helm:
