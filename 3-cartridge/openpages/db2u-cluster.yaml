@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: db2u-cluster-${appSuffix}
+  namespace: ${argocdNS}
+  labels:
+    scope: cluster
+    product: openpages
+spec:
+  destination:
+    name: ''
+    namespace: default
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: ${argoSourceRepoURL}
+    targetRevision: main
+    path: repos/db2u/cluster-scope
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: db2aaservice-${appSuffix}
+  namespace: ${argocdNS}
+  labels:
+    scope: namespace
+    product: openpages
+spec:
+  destination:
+    name: ''
+    namespace: default
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: ${argoSourceRepoURL}
+    targetRevision: main
+    path: repos/db2aaservice
+    helm:
+      valueFiles:
+        - ../../values.yaml
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

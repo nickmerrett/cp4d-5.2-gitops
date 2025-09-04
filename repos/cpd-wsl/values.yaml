@@ -1,0 +1,6 @@
+global:
+  operatorNS: ""     
+  instanceNS: ""                   
+  blockStorageClass: ""
+  fileStorageClass: ""
+  

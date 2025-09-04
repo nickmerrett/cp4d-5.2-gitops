@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: non-olm-cp4d
+  namespace: ${argocdNS}
+spec:
+  project: default
+  source:
+    repoURL: ${argoSourceRepoURL}
+    targetRevision: main
+    path: .
+    kustomize: {}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ${argocdNS}
+  syncPolicy:
+    automated:
+      prune: true 
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

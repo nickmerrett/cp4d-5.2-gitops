@@ -1,0 +1,4 @@
+resources:
+  - planning-analytics-cluster.yaml
+  - planning-analytics.yaml
+  - planning-analytics-instance.yaml
